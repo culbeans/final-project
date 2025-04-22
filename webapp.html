@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Duck Guessing Game - Text Clues</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f0f8ff;
+      margin: 0;
+      padding: 20px;
+    }
+    #gameContainer {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    #clueContainer {
+      margin: 20px 0;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    #optionsContainer button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #feedback {
+      font-size: 20px;
+      margin-top: 20px;
+      height: 30px;
+    }
+    #nextButton {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="gameContainer">
+    <h1>Duck Guessing Game!</h1>
+    <!-- Clue container instead of an image -->
+    <div id="clueContainer">
+      <p id="duckClue"></p>
+    </div>
+    <div id="optionsContainer"></div>
+    <div id="feedback"></div>
+    <button id="nextButton">Next Round</button>
+  </div>
+
+  <script>
+    // Array of duck objects containing a name and a clue sentence.
+    const ducks = [
+      { 
+        name: 'Mallard Duck', 
+        clue: 'What duck has a green head with a white belly?' 
+      },
+      { 
+        name: 'Wood Duck', 
+        clue: 'What duck features vibrant plumage with a striking patterned appearance?' 
+      },
+      { 
+        name: 'Teal Duck', 
+        clue: 'Which duck is known for its small size and blue-green tint?' 
+      },
+      { 
+        name: 'Pintail Duck', 
+        clue: 'Which duck is recognized by its long, slender tail and refined shape?' 
+      }
+    ];
+
+    let correctDuck = null;
+
+    // Utility function to shuffle an array.
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    // Start a new round of the game.
+    function newRound() {
+      document.getElementById('feedback').innerText = '';
+      document.getElementById('nextButton').style.display = 'none';
+
+      // Randomly select a duck as the correct answer.
+      correctDuck = ducks[Math.floor(Math.random() * ducks.length)];
+      
+      // Display the clue for the chosen duck.
+      document.getElementById('duckClue').innerText = correctDuck.clue;
+
+      // Generate options from all available duck names and shuffle them.
+      const options = ducks.map(duck => duck.name);
+      shuffleArray(options);
+
+      // Clear any previous options.
+      const optionsContainer = document.getElementById('optionsContainer');
+      optionsContainer.innerHTML = '';
+
+      // Create a button for each option.
+      options.forEach(option => {
+        const button = document.createElement('button');
+        button.innerText = option;
+        button.addEventListener('click', function() {
+          if (option === correctDuck.name) {
+            document.getElementById('feedback').innerText = 'Correct!';
+            document.getElementById('nextButton').style.display = 'inline-block';
+          } else {
+            document.getElementById('feedback').innerText = 'Incorrect, try again!';
+          }
+        });
+        optionsContainer.appendChild(button);
+      });
+    }
+
+    // Attach an event listener to the "Next Round" button.
+    document.getElementById('nextButton').addEventListener('click', newRound);
+
+    // Start the game on page load.
+    window.onload = newRound;
+  </script>
+</body>
+</html>
+
+

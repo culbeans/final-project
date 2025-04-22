@@ -1,0 +1,31 @@
+/* you already have this, it centers inline content like text and inline images */
+body {
+  text-align: center;
+  list-style-position: inside;
+}
+
+/* center block‑level images */
+img {
+  display: block;
+  margin: 0 auto;
+}
+
+/* if you ever need to center anything (text, images or other blocks)
+   both horizontally and vertically, wrap it in a flex container: */
+.flex-center {
+  display: flex;
+  justify-content: center; /* horizontal centering */
+  align-items: center;     /* vertical centering */
+}
+
+/* example: to center everything inside your main-content both ways, */
+.main-content {
+  /* you can keep the existing styles, plus: */
+  display: flex;
+  flex-direction: column;  /* stack children vertically */
+  justify-content: center; /* vertical */
+  align-items: center;     /* horizontal */
+}
+
+  
+  
